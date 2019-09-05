@@ -8,11 +8,18 @@
 
 import UIKit
 import CoreData
+import MapKit
 
-class CreateSightViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+protocol NewLocationDelegate{
+    func locationAnnotationAdded(annotation: LocationAnnotation)
+}
+
+class CreateSightViewController: UIViewController, UIImagePickerControllerDelegate,CLLocationManagerDelegate, UINavigationControllerDelegate {
 
     weak var databaseController: DatabaseProtocol?
-    
+    var locationManager: CLLocationManager = CLLocationManager()
+    var currentLocation: CLLocationCoordinate2D?
+    var delegate: NewLocationDelegate?
     var image: String?
 
     @IBOutlet weak var nameTextField: UITextField!
@@ -28,12 +35,43 @@ class CreateSightViewController: UIViewController, UIImagePickerControllerDelega
         
         // Do any additional setup after loading the view.
         // Get the database controller once from the App Delegate
+        locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+        locationManager.distanceFilter = 10
+        locationManager.delegate = self
+        locationManager.requestAlwaysAuthorization()
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         databaseController = appDelegate.databaseController
         managedObjectContext = appDelegate.persistantContainer?.viewContext
         image = ""
     }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        locationManager.startUpdatingLocation()
+    }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        locationManager.stopUpdatingLocation()
+    }
+    
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        let location = locations.last!
+        currentLocation = location.coordinate
+    }
+    
+    @IBAction func useCurrentLocation(_ sender: Any) {
+        if let currentLocation = currentLocation{
+            latTextField.text = "\(currentLocation.latitude)"
+            longTextField.text = "\(currentLocation.longitude)"
+        }
+        else{
+            let alertController = UIAlertController(title:"Location Not Found", message: "The location has not yet been determined.", preferredStyle: .alert)
+            alertController.addAction(UIAlertAction(title:"Dismiss", style: .default, handler: nil))
+            present(alertController, animated: true, completion: nil)
+        }
+    }
+
     //Get icon's name which is choosed
     func getIconName () ->String{
         if iconSegmentedControl.selectedSegmentIndex == 0{

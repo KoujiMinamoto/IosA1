@@ -23,6 +23,7 @@ class MapViewController: UIViewController,  MKMapViewDelegate,DatabaseListener ,
    
     var locationManager: CLLocationManager = CLLocationManager()
 
+    var selectedForFocus: Sight?
 
 
 
@@ -37,10 +38,26 @@ class MapViewController: UIViewController,  MKMapViewDelegate,DatabaseListener ,
 
         filteredsight = allSight
 
-        let CBD = CLLocation(latitude: -37.8124, longitude: 144.9623)
-        let region = MKCoordinateRegion(center: CBD.coordinate, latitudinalMeters: 7000, longitudinalMeters: 7000)
-        mapView.setRegion(region, animated: true)
-
+        //let CBD = CLLocation(latitude: -37.8124, longitude: 144.9623)
+        //let region = MKCoordinateRegion(center: CBD.coordinate, latitudinalMeters: 7000, longitudinalMeters: 7000)
+        //mapView.setRegion(region, animated: true)
+        
+        
+        //locationList = [LocationAnnotation(newTitle: selectedForFocus!.name!, newSubtitle: selectedForFocus!.descriptions!, lat:Double( selectedForFocus!.latitude), long: Double(selectedForFocus!.longitude))]
+        if selectedForFocus != nil {
+           
+           focusOn(annotation: LocationAnnotation(newTitle: selectedForFocus!.name!, newSubtitle: selectedForFocus!.descriptions!, lat: Double(selectedForFocus!.latitude), long: Double(selectedForFocus!.longitude)))
+            
+        }
+        else
+        {
+            let CBD = CLLocation(latitude: -37.8124, longitude: 144.9623)
+            let region = MKCoordinateRegion(center: CBD.coordinate, latitudinalMeters: 7000, longitudinalMeters: 7000)
+            mapView.setRegion(region, animated: true)
+            
+            
+        }
+       
 
 
 
@@ -120,6 +137,10 @@ class MapViewController: UIViewController,  MKMapViewDelegate,DatabaseListener ,
         mapView.selectAnnotation(annotation, animated: true)
         let zoomRegion = MKCoordinateRegion(center: annotation.coordinate, latitudinalMeters: 1000,longitudinalMeters: 1000)
         mapView.setRegion(mapView.regionThatFits(zoomRegion), animated: true)
+      
+        
+            
+        
     }
 
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {

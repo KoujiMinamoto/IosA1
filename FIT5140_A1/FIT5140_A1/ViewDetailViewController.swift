@@ -53,10 +53,30 @@ class ViewDetailViewController: UIViewController {
         case "Albert Park":
             return UIImage(named: "Albert Park")
             
-        case "Melbourne Museum":
-            return UIImage(named: "Melbourne Museum")
-        case "Melbourne Museum":
-            return UIImage(named: "Melbourne Museum")
+        case "NGV":
+            return UIImage(named: "NGV")
+        case "Burnswick":
+            return UIImage(named: "Burnswick")
+        case "QVM":
+            return UIImage(named: "QVM")
+        case "sk":
+            return UIImage(named: "sk")
+        case "Royal Exhibition Building":
+            return UIImage(named: "Royal Exhibition Building")
+        case "Curtin House":
+            return UIImage(named: "Curtin House")
+        case "Chinatown":
+            return UIImage(named: "Chinatown")
+        case "Great Ocean Road":
+            return UIImage(named: "Great Ocean Road")
+            
+        case "Phillip Island":
+            return UIImage(named: "Phillip Island")
+        case "Federation Square":
+            return UIImage(named: "Federation Square")
+            
+        case "Melbourne Zoo":
+            return UIImage(named: "Melbourne Zoo")
         default:
             break
         }

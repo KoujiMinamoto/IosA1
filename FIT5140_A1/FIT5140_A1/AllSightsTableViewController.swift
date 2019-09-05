@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import MapKit
 
-class AllSightsTableViewController: UITableViewController, UISearchResultsUpdating, DatabaseListener{
+class AllSightsTableViewController: UITableViewController, UISearchResultsUpdating, DatabaseListener,NewLocationDelegate, MKMapViewDelegate{
 
     let SECTION_SIGHTS = 0;
     let SECTION_COUNT = 1;
@@ -18,7 +19,10 @@ class AllSightsTableViewController: UITableViewController, UISearchResultsUpdati
     var allSights: [Sight] = []
     var filteredSights: [Sight] = []
     weak var databaseController: DatabaseProtocol?
-    
+    var mapViewController: MapViewController?
+    var locationList = [LocationAnnotation]()
+    //weak var listdid : [Sight]? = nil
+    weak var seclectedfromList:Sight? = nil
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -56,6 +60,7 @@ class AllSightsTableViewController: UITableViewController, UISearchResultsUpdati
     func onSightsChange(change: DatabaseChange, sights: [Sight]) {
         allSights = sights
         updateSearchResults(for: navigationItem.searchController!)
+        mapViewController?.viewWillAppear(true)
     }
     
     
@@ -103,6 +108,35 @@ class AllSightsTableViewController: UITableViewController, UISearchResultsUpdati
             return 1
         }
     }
+    //method be called whenever is selected
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+
+        //print("HI")
+        //if indexPath.section == SECTION_SIGHTS{
+//            let selectedsight = self.filteredSights[indexPath.row]
+//            let name = selectedsight.name!
+//            let desc = selectedsight.descriptions!
+//            let lat = Double(selectedsight.latitude)
+//            let long = Double(selectedsight.longitude)
+//            let locationAnnotation = LocationAnnotation(newTitle: name, newSubtitle: desc, lat: lat, long: long)
+            //tableView.deselectRow(at:indexPath,animated:false)
+            //return
+            //call function from mapviewcontroller
+//            mapViewController!.focusOn(annotation: locationAnnotation)
+//            navigationController?.popViewController(animated: true)
+       // }
+        let selectedIndexPath = tableView.indexPathsForSelectedRows?.first
+        
+        seclectedfromList = filteredSights[selectedIndexPath!.row]
+        //print("NEXTLINE")
+        performSegue(withIdentifier: "backmap", sender: view)
+
+    }
+    
+//    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        self.mapViewController?.focusOn(annotation: self.locationList[indexPath.row] as MKAnnotation)
+//
+//    }
 
     /*
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -136,12 +170,12 @@ class AllSightsTableViewController: UITableViewController, UISearchResultsUpdati
     
     
     //method be called whenever is selected
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.section == SECTION_COUNT {
-            tableView.deselectRow(at: indexPath, animated: false)
-            return
-        }
-    }
+//    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        if indexPath.section == SECTION_COUNT {
+//            tableView.deselectRow(at: indexPath, animated: false)
+//            return
+//        }
+//    }
     
     /*
     // Override to support conditional editing of the table view.
@@ -194,6 +228,13 @@ class AllSightsTableViewController: UITableViewController, UISearchResultsUpdati
             let selectedIndexPath = tableView.indexPathsForSelectedRows?.first
             controller.selectedSight = filteredSights[selectedIndexPath!.row]
         }
+        
+        if segue.identifier == "backmap" {
+            let controller = segue.destination as! MapViewController
+            controller.selectedForFocus = seclectedfromList
+            
+            
+        }
     }
     
     /*
@@ -216,5 +257,10 @@ class AllSightsTableViewController: UITableViewController, UISearchResultsUpdati
         alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertAction.Style.default,handler:
         nil))
         self.present(alertController, animated: true, completion: nil)
+    }
+    
+    func locationAnnotationAdded(annotation: LocationAnnotation){
+        locationList.append(annotation)
+        mapViewController?.mapView.addAnnotation(annotation)
     }
 }
