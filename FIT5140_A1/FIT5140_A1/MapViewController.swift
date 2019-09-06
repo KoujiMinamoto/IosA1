@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import MapKit
 import CoreData
+import UserNotifications
 
 class MapViewController: UIViewController,  MKMapViewDelegate,DatabaseListener ,CLLocationManagerDelegate {
     
@@ -171,6 +172,27 @@ class MapViewController: UIViewController,  MKMapViewDelegate,DatabaseListener ,
         }
     }
 
+//    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse,
+//                                withCompletionHandler completionHandler: @escaping () -> Void) {
+//        switch response.notification.request.content.categoryIdentifier {
+//        case CATEGORY_IDENTIFIER:
+//            switch response.actionIdentifier {
+//            case "decline":
+//                print("declined")
+//            case "accept":
+//                print("accepted")
+//            case "comment":
+//                // In this case we know that it is a user response instead
+//                let userResponse = response as! UNTextInputNotificationResponse
+//                print(userResponse.userText)
+//            default:
+//                break
+//            }
+//        default:
+//            break
+//        }
+//        completionHandler()
+//    }
 
 
 

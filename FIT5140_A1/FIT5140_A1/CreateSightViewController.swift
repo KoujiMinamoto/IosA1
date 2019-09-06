@@ -142,7 +142,7 @@ class CreateSightViewController: UIViewController, UIImagePickerControllerDelega
     //create and validation
     @IBAction func createSight(_ sender: Any) {
         savePhoto()
-        if nameTextField.text != "" && descriptionsTextField.text != "" && (Double(latTextField.text!) != nil) && (Double(longTextField.text!) != nil) && getIconName() != "" && image != ""{
+        if nameTextField.text != "" && descriptionsTextField.text != "" && vaildlat()&&vaildlon()&&(Double(latTextField.text!) != nil) && (Double(longTextField.text!) != nil) && getIconName() != "" && image != ""{
             let name = nameTextField.text!
             let descriptions = descriptionsTextField.text!
             let latitude = Double(latTextField.text!)!
@@ -167,6 +167,12 @@ class CreateSightViewController: UIViewController, UIImagePickerControllerDelega
         if (Double(longTextField.text!) == nil) {
             errorMsg += "- Must provide a numeric longitude\n"
         }
+        if vaildlat() == false{
+            errorMsg += "-latitude Must in range\n"
+        }
+        if vaildlon() == false{
+            errorMsg += "-longitude Must in range\n"
+        }
         if getIconName() == "" {
             errorMsg += "- Must choose an icon\n"
         }
@@ -174,6 +180,32 @@ class CreateSightViewController: UIViewController, UIImagePickerControllerDelega
             errorMsg += "- Must take a photo\n"
         }
         displayMessage(title: "Not all fields filled", message: errorMsg)
+    }
+    
+    func vaildlon() -> Bool {
+        if (Double(longTextField.text!) != nil){
+        let lonva = Double(longTextField.text!)!
+        
+        if(lonva < 180.0000 && lonva > -180.0){
+            return true
+            
+        }
+        
+        }
+        return false
+    }
+    
+    func vaildlat() -> Bool {
+        if (Double(latTextField.text!) != nil){
+            let latva = Double(latTextField.text!)!
+            
+            if(latva < 90.0000 && latva > -90.0){
+                return true
+                
+            }
+            
+        }
+        return false
     }
     
     func displayMessage(title: String, message: String) {

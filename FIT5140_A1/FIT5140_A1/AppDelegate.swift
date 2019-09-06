@@ -8,6 +8,9 @@
 
 import UIKit
 import CoreData
+import MapKit
+import CoreLocation
+import UserNotifications
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -15,6 +18,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     var databaseController: DatabaseProtocol?
     var persistantContainer: NSPersistentContainer?
+    //
+    let locationManager = CLLocationManager()
+    let center = UNUserNotificationCenter.current()
+    //var locationManager: CLLocationManager = CLLocationManager()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -27,8 +34,65 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
         
+        // configure location manager
+//        if (self as! CLLocationManagerDelegate) != nil{
+//        locationManager.delegate = (self as! CLLocationManagerDelegate)
+//        locationManager.requestAlwaysAuthorization()
+//        }
+        
+        locationManager.delegate = self
+        locationManager.requestAlwaysAuthorization()
+        // configure notification center
+        center.requestAuthorization(options: [.alert, .sound, .badge]) { (granted, error) in }
+        center.removeAllDeliveredNotifications()
+        center.removeAllPendingNotificationRequests()
+        
         
         return true
+    }
+    
+    func handleLeaveEvent(forRegion region: CLRegion!) {
+        // display alert
+        if UIApplication.shared.applicationState == .active {
+            guard let message = leaveMessage(forRegion: region.identifier) else { return }
+            let alert = UIAlertController(title: "Leave \(region.identifier)'s territory", message: message, preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+            window?.rootViewController?.present(alert, animated: true, completion: nil)
+        } else {
+            // Otherwise present a local notification
+            let content = UNMutableNotificationContent()
+            content.body = leaveMessage(forRegion: region.identifier)!
+            content.sound = UNNotificationSound.default
+            let request = UNNotificationRequest(identifier: region.identifier, content: content, trigger: nil)
+            center.add(request, withCompletionHandler: nil)
+        }
+    }
+    
+    func handleEntryEvent(forRegion region: CLRegion!){
+        // display alert
+        if UIApplication.shared.applicationState == .active {
+            guard let message = entryMessage(forRegion: region.identifier) else { return }
+            let alert = UIAlertController(title: "Enter \(region.identifier)'s territory", message: message, preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "Hi there", style: UIAlertAction.Style.default, handler: nil))
+            window?.rootViewController?.present(alert, animated: true, completion: nil)
+        } else {
+            let content = UNMutableNotificationContent()
+            content.body = entryMessage(forRegion: region.identifier)!
+            content.sound = UNNotificationSound.default
+            let request = UNNotificationRequest(identifier: region.identifier, content: content, trigger: nil)
+            center.add(request, withCompletionHandler: nil)
+            
+        }
+    }
+    
+    func leaveMessage(forRegion identifier:String)->String?{
+        let leaveString = "Say goodbye to \(identifier)"
+        return leaveString
+    }
+    
+    func entryMessage(forRegion identifier:String)->String?{
+        let entryString = "Say hello to \(identifier)"
+        return entryString
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
@@ -52,7 +116,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
-
+    
+   
 
 }
+extension AppDelegate: CLLocationManagerDelegate {
+    
+    // display alert or send notification in the background when enter
+    func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
+        if region is CLCircularRegion {
+            handleEntryEvent(forRegion: region)
+        }
+    }
+    
+    // display alert or send notification in the background when leave
+    func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
+        if region is CLCircularRegion {
+            handleLeaveEvent(forRegion: region)
+        }
+    }
+}
+
 
