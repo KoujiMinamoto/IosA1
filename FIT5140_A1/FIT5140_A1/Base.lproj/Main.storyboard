@@ -22,8 +22,8 @@
                             <rect key="frame" x="0.0" y="0.0" width="375" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <segments>
-                                <segment title="Ascending order"/>
-                                <segment title="Descending Order"/>
+                                <segment title="A-Z"/>
+                                <segment title="Z-A"/>
                             </segments>
                             <connections>
                                 <action selector="sorting:" destination="l6X-PZ-XfF" eventType="valueChanged" id="vpE-uD-h1e"/>
@@ -112,13 +112,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CRT-ZX-tKu">
-                                <rect key="frame" x="16" y="356" width="343" height="20.5"/>
+                                <rect key="frame" x="16" y="356" width="168" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Descriptions" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cyi-xE-kBx">
-                                <rect key="frame" x="16" y="392.5" width="343" height="20.5"/>
+                                <rect key="frame" x="16" y="392.5" width="168" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -139,7 +139,7 @@
                                 <rect key="frame" x="16" y="605" width="121" height="30"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <state key="normal" title="View sight in map">
-                                    <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
                                     <action selector="viewInMapButton:" destination="g3F-bJ-gQZ" eventType="touchUpInside" id="0EA-T7-Zoj"/>
@@ -153,7 +153,7 @@
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Longitude" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="unD-pn-hwG">
-                                <rect key="frame" x="179" y="429" width="77" height="21"/>
+                                <rect key="frame" x="149" y="429" width="77" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -166,7 +166,7 @@
                                 </constraints>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8Du-QG-p5g">
-                                <rect key="frame" x="255" y="605" width="120" height="30"/>
+                                <rect key="frame" x="127" y="605" width="120" height="30"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="120" id="VxP-ur-3c5"/>
@@ -194,7 +194,7 @@
                             <constraint firstItem="ix5-b0-qKd" firstAttribute="top" secondItem="FOq-TE-zJT" secondAttribute="top" constant="184" id="Rgb-nv-4WB"/>
                             <constraint firstItem="UU6-oc-4d4" firstAttribute="bottom" secondItem="4E3-Dn-DpL" secondAttribute="bottom" constant="32" id="Sxo-hF-WHD"/>
                             <constraint firstItem="ZdJ-Yf-po8" firstAttribute="top" secondItem="Cyi-xE-kBx" secondAttribute="bottom" constant="16" id="Sxy-tt-ydC"/>
-                            <constraint firstItem="unD-pn-hwG" firstAttribute="leading" secondItem="ZdJ-Yf-po8" secondAttribute="trailing" constant="100" id="U5i-Q7-vYb"/>
+                            <constraint firstItem="unD-pn-hwG" firstAttribute="leading" secondItem="ZdJ-Yf-po8" secondAttribute="trailing" constant="70" id="U5i-Q7-vYb"/>
                             <constraint firstItem="Cyi-xE-kBx" firstAttribute="leading" secondItem="UU6-oc-4d4" secondAttribute="leading" constant="16" id="W7K-bt-GMB"/>
                             <constraint firstItem="UU6-oc-4d4" firstAttribute="trailing" secondItem="ix5-b0-qKd" secondAttribute="trailing" constant="100" id="bGN-8n-HVg"/>
                             <constraint firstAttribute="trailing" secondItem="CRT-ZX-tKu" secondAttribute="trailing" constant="16" id="bxg-OD-wig"/>

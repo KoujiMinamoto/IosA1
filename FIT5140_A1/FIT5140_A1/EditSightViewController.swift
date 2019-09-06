@@ -130,7 +130,9 @@ class EditSightViewController: UIViewController, UIImagePickerControllerDelegate
             let filePath = pathComponent.path
             let fileManager = FileManager.default
             let fileData = fileManager.contents(atPath: filePath)
+            if fileData != nil{
             image = UIImage(data: fileData!)
+            }
         }
         return image
     }
